@@ -1,6 +1,6 @@
 train: images/train
 val: images/val
 
-nc: 24
+nc: 1
 
-names: [especie_1,especie_2,especie_3,especie_4,especie_5,especie_6,especie_7,especie_8,especie_9,especie_10,especie_11,especie_12,especie_13,especie_14,especie_15,especie_16,especie_17,especie_18,especie_19,especie_20,especie_21,especie_22,especie_23,especie_24]
+names: ['0']
