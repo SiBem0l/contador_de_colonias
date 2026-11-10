@@ -1,3 +1,6 @@
 dataset/images/
 dataset/labels/
 myenv/
+
+dataset_yolo/images/
+dataset_yolo/labels/
