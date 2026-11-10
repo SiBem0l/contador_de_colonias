@@ -1,0 +1,6 @@
+train: images/train
+val: images/val
+test: images/test # Opcional
+
+nc: 24
+names: ['especie_1', 'especie_2', 'especie_3', ..., 'especie_24']
