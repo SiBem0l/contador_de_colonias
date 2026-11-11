@@ -1,6 +1,6 @@
 dataset/images/
 dataset/labels/
-myenv/
+.venv/
 
 dataset_yolo/images/
 dataset_yolo/labels/
