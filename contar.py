@@ -1,11 +1,11 @@
 from ultralytics import YOLO
 
 # 1. Cargar tu modelo entrenado
-model = YOLO('best.pt')
+model = YOLO('best_2.pt')
 
 # Definir la imagen y los niveles de confianza que deseas probar
 imagen_prueba = 'a.jpg'
-niveles_confianza = [0.2, 0.4, 0.6, 0.8]
+niveles_confianza = [0.05, 0.1, 0.2, 0.4, 0.6, 0.8]
 
 print(f"Iniciando prueba con múltiples configuraciones de confianza en: {imagen_prueba}\n" + "-"*50)
 
