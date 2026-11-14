@@ -2,5 +2,4 @@ dataset/images/
 dataset/labels/
 .venv/
 
-dataset_yolo/images/
-dataset_yolo/labels/
+dataset_yolo

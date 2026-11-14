@@ -1,0 +1,50 @@
+import cv2
+import os
+import shutil
+
+def procesar_split(carpeta_imgs, carpeta_labels, duplicar_invertido=True):
+    if not os.path.isdir(carpeta_imgs):
+        raise FileNotFoundError(f"No existe la carpeta de imágenes: {os.path.abspath(carpeta_imgs)}")
+    if not os.path.isdir(carpeta_labels):
+        raise FileNotFoundError(f"No existe la carpeta de etiquetas: {os.path.abspath(carpeta_labels)}")
+
+    clahe = cv2.createCLAHE(clipLimit=2.0, tileGridSize=(8, 8))
+    extensiones = (".jpg", ".jpeg", ".png", ".bmp")
+
+    archivos = [
+        f for f in os.listdir(carpeta_imgs)
+        if f.lower().endswith(extensiones) and not os.path.splitext(f)[0].endswith("_inv")
+    ]
+
+    print(f"Encontradas {len(archivos)} imágenes en {carpeta_imgs}...")
+
+    for archivo in archivos:
+        ruta = os.path.join(carpeta_imgs, archivo)
+        img = cv2.imread(ruta)
+        if img is None:
+            continue
+
+        gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+
+        # 1. Versión normal: Grises + CLAHE
+        norm = cv2.cvtColor(clahe.apply(gray), cv2.COLOR_GRAY2BGR)
+        cv2.imwrite(ruta, norm)
+
+        # 2. Versión invertida: Grises invertidos + CLAHE
+        if duplicar_invertido:
+            inv_gray = cv2.bitwise_not(gray)
+            inv = cv2.cvtColor(clahe.apply(inv_gray), cv2.COLOR_GRAY2BGR)
+
+            nombre, ext = os.path.splitext(archivo)
+            cv2.imwrite(os.path.join(carpeta_imgs, f"{nombre}_inv{ext}"), inv)
+
+            lbl_orig = os.path.join(carpeta_labels, f"{nombre}.txt")
+            lbl_inv = os.path.join(carpeta_labels, f"{nombre}_inv.txt")
+            if os.path.exists(lbl_orig):
+                shutil.copy(lbl_orig, lbl_inv)
+
+    print(f"Listo: {len(archivos)} imágenes procesadas.\n")
+
+# Si tu dataset usa images/train y labels/train, invertí el orden en estas dos líneas:
+procesar_split("dataset_grises/images/train", "dataset_grises/images/train/labels")
+procesar_split("dataset_grises/images/val", "dataset_grises/images/val/labels")
